@@ -4,7 +4,7 @@ const validCubeSize = (x: any): x is CubeSize => cubeSizes.includes(x);
 
 export function validateCubeSize(cubeSize: any) {
   if (!validCubeSize(cubeSize)) {
-    const err_msg = `Inavlid cube size: \'${cubeSize}\'\nSupported cube sizes: ${cubeSizes.join(', ')}`;
+    const err_msg = `Invalid cube size: \'${cubeSize}\'\nSupported cube sizes: ${cubeSizes.join(', ')}`;
     throw new Error(err_msg);
   }
 }
