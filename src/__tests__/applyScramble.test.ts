@@ -1,6 +1,6 @@
-import { applyScramble, Cube } from '../index';
+import { applyScramble, CubeType } from '../index';
 
-const resultingCube: Cube = {
+const resultingCube: CubeType = {
   U: [
     ['O', 'O', 'G'],
     ['R', 'W', 'G'],

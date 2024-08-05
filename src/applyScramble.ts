@@ -1,15 +1,5 @@
 import { applyScrambleHelper } from './applyScrambleHelper.js';
-
-type Color = 'W' | 'Y' | 'G' | 'B' | 'R' | 'O';
-type Face = Color[][];
-type Cube = {
-  U: Face;
-  D: Face;
-  L: Face;
-  R: Face;
-  F: Face;
-  B: Face;
-};
+import { CubeType } from './cube.js';
 
 interface ApplyScrambleProps {
   type: string;
@@ -17,8 +7,7 @@ interface ApplyScrambleProps {
 }
 
 function applyScramble({ type, scramble }: ApplyScrambleProps) {
-  return applyScrambleHelper({ type, scramble }) as Cube;
+  return applyScrambleHelper({ type, scramble }) as CubeType;
 }
 
-export type { Cube, Color, Face };
 export { applyScramble };

@@ -1,4 +1,4 @@
-import { Cube } from './applyScramble';
+import { CubeType } from './cube';
 
 type CubeFace = 'U' | 'D' | 'L' | 'R' | 'F' | 'B';
 type SolvedCubeType = '2x2' | '3x3' | '4x4' | '5x5' | '6x6' | '7x7';
@@ -52,7 +52,7 @@ function solvedCube({ type }: SolvedCubeProps) {
   if (!size) {
     throw new Error(`Unsupported cube type: ${type}`);
   }
-  return generateSolvedCube(size) as Cube;
+  return generateSolvedCube(size) as CubeType;
 }
 
 export type { SolvedCubeType };

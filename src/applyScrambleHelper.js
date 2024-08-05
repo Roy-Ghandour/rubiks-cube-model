@@ -131,7 +131,7 @@ export function applyScrambleHelper({ type, scramble }) {
   const validMoves = moves.every((move) => move.depth <= Math.floor(size / 2) && DIRECTIONS.includes(move.direction));
 
   if (!validMoves) {
-    return null;
+    throw new Error("Invalid moves!");
   }
 
   const cube = moves.reduce((cube, move) => {
