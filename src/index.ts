@@ -9,7 +9,7 @@ export { applyScramble, solvedCube, generateScramble, Cube };
 //testing
 
 //generateScramble('1x1');
-//solvedCube('hello');
+console.log(solvedCube('3x3'));
 
 /*
 let cube = new Cube();
