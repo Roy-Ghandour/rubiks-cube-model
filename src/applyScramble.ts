@@ -1,12 +1,7 @@
 import { applyScrambleHelper } from './applyScrambleHelper.js';
 import { CubeType } from './cube.js';
 
-interface ApplyScrambleProps {
-  type: string;
-  scramble: string;
-}
-
-function applyScramble({ type, scramble }: ApplyScrambleProps) {
+function applyScramble(type: string, scramble: string): CubeType {
   return applyScrambleHelper({ type, scramble }) as CubeType;
 }
 

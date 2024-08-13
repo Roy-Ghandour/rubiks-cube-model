@@ -1,10 +1,10 @@
 import { CubeType } from './cube';
-import { validateCubeSize, CubeSize } from './cubeUtils';
+import { validateCubeSize, CubeSize, cubeSizeToNumber } from './cubeUtils';
 
 function solvedCube(cubeSize: CubeSize): CubeType {
   validateCubeSize(cubeSize);
 
-  const size = parseInt(cubeSize[0], 10);
+  const size = cubeSizeToNumber(cubeSize);
   return {
     U: Array(size).fill(Array(size).fill('W')),
     D: Array(size).fill(Array(size).fill('Y')),
