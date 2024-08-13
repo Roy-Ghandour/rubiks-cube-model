@@ -1,7 +1,8 @@
 /* eslint-disable */
 
-import { CubeSize, cubeSizeToNumber, validateCubeSize, validateScramble } from './cubeUtils';
+import { CubeSize, cubeSizeToNumber, numberToCubeSize, validateCubeSize, validateScramble } from './cubeUtils';
 import { CubeType, Color, Cube } from './cube';
+import { solvedCube } from './solvedCube';
 
 const UP = 'U';
 const RIGHT = 'R';
@@ -13,7 +14,11 @@ const BACK = 'B';
 const DIRECTIONS = [UP, DOWN, RIGHT, LEFT, FRONT, BACK];
 type Direction = (typeof DIRECTIONS)[number];
 
-const INITIAL_FACES = {
+interface IINITIAL_FACES {
+  [key: string]: Color;
+}
+
+const INITIAL_FACES: IINITIAL_FACES = {
   [UP]: 'W',
   [DOWN]: 'Y',
   [LEFT]: 'O',
@@ -32,7 +37,11 @@ type Edge = (typeof EDGES)[number];
 
 type Move = { direction: Direction; reversed: boolean; depth: number; twice: boolean };
 
-const FACE_EDGE_MAP = {
+interface IFACE_EDGE_MAP {
+  [key: Direction]: { face: Direction; edge: Edge; reversed?: boolean }[];
+}
+
+const FACE_EDGE_MAP: IFACE_EDGE_MAP = {
   [UP]: [
     { face: FRONT, edge: TOP_EDGE },
     { face: LEFT, edge: TOP_EDGE },
@@ -130,30 +139,25 @@ function generateArr(n: number): number[] {
   return arr;
 }
 
-/*
-const INITIAL_FACES = {
-  [UP]: 'W',
-  [DOWN]: 'Y',
-  [LEFT]: 'O',
-  [RIGHT]: 'R',
-  [FRONT]: 'G',
-  [BACK]: 'B',
-};
-*/
-
 type Coord = number;
 type IndexedFace = { x: Coord; y: Coord; color: Color }[];
 
-type IndexedCube =
-  | {
-      [UP]: IndexedFace;
-      [DOWN]: IndexedFace;
-      [LEFT]: IndexedFace;
-      [RIGHT]: IndexedFace;
-      [FRONT]: IndexedFace;
-      [BACK]: IndexedFace;
-    }
-  | {};
+// FIX THIS
+/*
+interface IndexedCube {
+  [key: Direction]: IndexedFace;
+}
+  */
+// ????????
+
+type IndexedCube = {
+  [UP]: IndexedFace;
+  [DOWN]: IndexedFace;
+  [LEFT]: IndexedFace;
+  [RIGHT]: IndexedFace;
+  [FRONT]: IndexedFace;
+  [BACK]: IndexedFace;
+};
 
 // I know there is a more elegant way to do this than these two functions
 // Will return to these when rotations is complete
@@ -164,7 +168,7 @@ function createCube(size: number): IndexedCube {
       [face]: createFace(size, INITIAL_FACES[face]),
     }),
     {},
-  );
+  ) as IndexedCube;
 }
 
 function createFace(size: number, color: Color): IndexedFace {
@@ -175,8 +179,7 @@ function createFace(size: number, color: Color): IndexedFace {
 
 // deal with this func after revisting createCube (group them together if we're grouping things)
 function convertCube(cube: IndexedCube): CubeType {
-  function convertSide(side) {
-    const size = Math.sqrt(side.length);
+  function convertSide(side: IndexedFace) {
     const converted = Array.from({ length: size }, () => Array(size).fill(''));
 
     for (let cell of side) {
@@ -186,12 +189,15 @@ function convertCube(cube: IndexedCube): CubeType {
     return converted;
   }
 
-  const convertedCube: CubeType | {} = {};
+  const size = getCubeSize(cube[UP as keyof IndexedCube]);
+
+  // don't like depending on solvedCube
+  const convertedCube: CubeType = solvedCube(numberToCubeSize(size));
 
   for (let sideKey in cube) {
-    if (cube.hasOwnProperty(sideKey)) {
-      convertedCube[sideKey] = convertSide(cube[sideKey]);
-    }
+    if (!cube.hasOwnProperty(sideKey)) continue;
+
+    convertedCube[sideKey as keyof CubeType] = convertSide(cube[sideKey as keyof IndexedCube]);
   }
 
   return convertedCube as CubeType;
@@ -202,19 +208,20 @@ function rotate(cube: IndexedCube, face: Direction, depth: number): IndexedCube 
     ...cube,
     ...cycleEdges(cube, face, depth),
     // make rotating face a seperate function
-    [face]: cube[face].map(({ color, x, y }) => ({
-      x: reverseIndex(y, getCubeSize(cube[face])),
+    [face]: cube[face as keyof IndexedCube].map(({ color, x, y }) => ({
+      x: reverseIndex(y, getCubeSize(cube[face as keyof IndexedCube])),
       y: x,
       color,
     })),
   };
 }
 
-function getCubeSize(face) {
+// Deal with  these little stragglers
+function getCubeSize(face: IndexedFace): number {
   return Math.sqrt(face.length);
 }
 
-function reverseIndex(index, size) {
+function reverseIndex(index: number, size: number): number {
   return (index - size) * -1 - 1;
 }
 
@@ -227,11 +234,15 @@ function cycleEdges(cube: IndexedCube, face: Direction, depth: number): IndexedC
     const source = i === 0 ? edgeMap[edgeMap.length - 1] : edgeMap[i - 1];
     const target = edgeMap[i];
 
-    let face: IndexedFace = cube[target.face];
+    let face: IndexedFace = cube[target.face as keyof IndexedCube];
 
     for (let offset = 0; offset < depth; offset++) {
       const sourceValues = getEdgeValues(source.edge, size, offset);
-      const colors = getSourceEdgeColors(cube[source.face], sourceValues, target.reverse);
+      const colors = getSourceEdgeColors(
+        cube[source.face as keyof IndexedCube],
+        sourceValues,
+        target.reversed as boolean,
+      );
 
       const targetValues = getEdgeValues(target.edge, size, offset);
       face = setTargetEdgeColors(face, targetValues, colors);
@@ -243,7 +254,7 @@ function cycleEdges(cube: IndexedCube, face: Direction, depth: number): IndexedC
     };
   }
 
-  return nextCube;
+  return nextCube as IndexedCube;
 }
 
 // I want to rename this and its type

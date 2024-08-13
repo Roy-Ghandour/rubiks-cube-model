@@ -4,13 +4,25 @@ import { CubeSize, validateScramble } from './cubeUtils';
 export type Color = 'W' | 'Y' | 'G' | 'B' | 'R' | 'O';
 export type Face = Color[][];
 
+//// Quarantine for now
+const UP = 'U';
+const RIGHT = 'R';
+const DOWN = 'D';
+const LEFT = 'L';
+const FRONT = 'F';
+const BACK = 'B';
+
+const DIRECTIONS = [UP, DOWN, RIGHT, LEFT, FRONT, BACK];
+type Direction = (typeof DIRECTIONS)[number];
+//////
+
 export type CubeType = {
-  U: Face;
-  D: Face;
-  L: Face;
-  R: Face;
-  F: Face;
-  B: Face;
+  [UP]: Face;
+  [DOWN]: Face;
+  [LEFT]: Face;
+  [RIGHT]: Face;
+  [FRONT]: Face;
+  [BACK]: Face;
 };
 
 export class Cube {
