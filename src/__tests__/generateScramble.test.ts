@@ -13,8 +13,8 @@ describe('generateScramble', () => {
   });
 
   it('should throw an error for an invalid cube type', () => {
-    expect(() => generateScramble('invalidType' as CubeSize)).toThrow(
-      "Invalid cube size: 'invalidType'\nSupported cube sizes: 2x2, 3x3, 4x4, 5x5, 6x6, 7x7",
+    expect(() => generateScramble('8x8' as CubeSize)).toThrow(
+      "Invalid cube size: '8x8'\nSupported cube sizes: 2x2, 3x3, 4x4, 5x5, 6x6, 7x7",
     );
   });
 });
