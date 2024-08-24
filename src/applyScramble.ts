@@ -1,3 +1,4 @@
+import { applyScrambleHelper } from './applyScrambleHelper';
 import { CubeType } from './cube';
 import { indexedCubeToCube, createIndexedCube, rotate } from './cubeRotator';
 import { CubeSize, cubeSizeToNumber, validateCubeSize, validateScramble } from './cubeUtils';
@@ -15,8 +16,14 @@ type Direction = (typeof DIRECTIONS)[number];
 type Move = { direction: Direction; reversed: boolean; depth: number; twice: boolean };
 
 export function applyScramble(cubeSize: CubeSize, scramble: string): CubeType {
+  const testing = false;
+
   validateCubeSize(cubeSize);
   validateScramble(cubeSize, scramble);
+
+  if (testing) {
+    return applyScrambleHelper({ type: '3x3', scramble }) as CubeType;
+  }
 
   const size = cubeSizeToNumber(cubeSize);
   const moves = splitScramble(scramble).map(parseMove);
