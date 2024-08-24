@@ -9,6 +9,17 @@ export function validateCubeSize(cubeSize: any): void {
   throw new Error(err_msg);
 }
 
+export function cubeSizeToNumber(cubeSize: CubeSize): number {
+  if (!validCubeSize(cubeSize)) throw new Error('Invalid Cube Size!');
+  return parseInt(cubeSize[0], 10);
+}
+
+export function numberToCubeSize(size: number): CubeSize {
+  const cubeSize = `${size}x${size}`;
+  if (!validCubeSize(cubeSize)) throw new Error('Invalid Cube Size!');
+  return cubeSize;
+}
+
 export function validateScramble(cubeSize: CubeSize, scramble: string): void {
   const validMove = (move: string) => /^([3-9](?=.*w))?[FBRLUDxyz][w]?[2']?$/.test(move);
   const validDepth = (move: string) => {
@@ -33,15 +44,4 @@ export function validateScramble(cubeSize: CubeSize, scramble: string): void {
     if (!validMove(move) || !validDepth(move))
       new Error(`Invalid move for a (${cubeSize}): --> \'${move}\'\nIn scramble:\n${scramble}`);
   }
-}
-
-export function cubeSizeToNumber(cubeSize: CubeSize): number {
-  if (!validCubeSize(cubeSize)) throw new Error('Invalid Cube Size!');
-  return parseInt(cubeSize[0], 10);
-}
-
-export function numberToCubeSize(size: number): CubeSize {
-  const cubeSize = `${size}x${size}`;
-  if (!validCubeSize(cubeSize)) throw new Error('Invalid Cube Size!');
-  return cubeSize;
 }

@@ -34,7 +34,5 @@ const resultingCube: CubeType = {
 };
 
 test('Apply Scramble', () => {
-  expect(
-    applyScramble({ scramble: "B' U' F2 B2 U D2 R' L U' R' U2 L D2 F' B D' B2 R L' U'", type: '3x3' }),
-  ).toStrictEqual(resultingCube);
+  expect(applyScramble('3x3', "B' U' F2 B2 U D2 R' L U' R' U2 L D2 F' B D' B2 R L' U'")).toStrictEqual(resultingCube);
 });

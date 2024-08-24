@@ -1,7 +1,5 @@
-/* eslint-disable */
-
 import { CubeSize, cubeSizeToNumber, numberToCubeSize, validateCubeSize, validateScramble } from './cubeUtils';
-import { CubeType, Color, Cube } from './cube';
+import { CubeType, Color } from './cube';
 import { solvedCube } from './solvedCube';
 
 const UP = 'U';
@@ -129,6 +127,7 @@ function parseMove(move: string): Move {
 }
 
 // strive to get rid of this if you can
+//only createface uses this
 function generateArr(n: number): number[] {
   let arr = new Array(n);
 
@@ -141,14 +140,6 @@ function generateArr(n: number): number[] {
 
 type Coord = number;
 type IndexedFace = { x: Coord; y: Coord; color: Color }[];
-
-// FIX THIS
-/*
-interface IndexedCube {
-  [key: Direction]: IndexedFace;
-}
-  */
-// ????????
 
 type IndexedCube = {
   [UP]: IndexedFace;
@@ -274,7 +265,6 @@ function getSourceEdgeColors(face: IndexedFace, edgeValues: EdgeValueType, rever
   const row = face
     .filter((tile) => tile[axis] === index)
     .sort((a, b) => {
-      // before sort was applied on [...row]
       if (a[oppositeAxis] < b[oppositeAxis]) return -1;
       if (a[oppositeAxis] > b[oppositeAxis]) return 1;
       return 0;
