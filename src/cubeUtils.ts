@@ -40,8 +40,8 @@ export function validateScramble(cubeSize: CubeSize, scramble: string): void {
     .map((str) => str.trim())
     .filter(Boolean);
 
-  for (const move in moves) {
+  for (const move of moves) {
     if (!validMove(move) || !validDepth(move))
-      new Error(`Invalid move for a (${cubeSize}): --> \'${move}\'\nIn scramble:\n${scramble}`);
+      throw new Error(`Invalid move for a (${cubeSize}): --> \'${move}\'\nIn scramble:\n${scramble}`);
   }
 }

@@ -59,7 +59,19 @@ describe('applyScramble/validation', () => {
     );
   });
 
-  // Validate scramble
+  // Validate scramble format
+  it('should throw an error for an invalid scramble', () => {
+    expect(() => applyScramble('3x3', 'sdlkfjs')).toThrow(
+      "Invalid move for a (3x3): --> 'sdlkfjs'\nIn scramble:\nsdlkfjs",
+    );
+  });
+
+  // Validate scramble depth
+  it('should throw an error for an invalid depth', () => {
+    expect(() => applyScramble('3x3', "U 3Dw' B2 F")).toThrow(
+      "Invalid move for a (3x3): --> '3Dw''\nIn scramble:\nU 3Dw' B2 F",
+    );
+  });
 });
 
 // Tests for turning each face
