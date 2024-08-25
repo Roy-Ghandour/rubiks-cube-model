@@ -39,10 +39,9 @@ test('Apply Scramble', () => {
 });
 */
 
-describe('applyScramble', () => {
-  const validCubeTypes = ['2x2', '3x3', '4x4', '5x5', '6x6', '7x7'];
+//const validCubeTypes = ['2x2', '3x3', '4x4', '5x5', '6x6', '7x7'];
 
-  /*
+/*
   validCubeTypes.forEach((type) => {
     it(`should generate a cube for ${type}`, () => {
       const cube = applyScramble(type as CubeSize, '');
@@ -51,18 +50,21 @@ describe('applyScramble', () => {
   });
   */
 
+// Tests for validating inputs
+describe('applyScramble/validation', () => {
+  // Validate cube size
   it('should throw an error for an invalid cube type', () => {
     expect(() => applyScramble('8x8' as CubeSize, '')).toThrow(
       "Invalid cube size: '8x8'\nSupported cube sizes: 2x2, 3x3, 4x4, 5x5, 6x6, 7x7",
     );
   });
 
-  // 3x3 tests
+  // Validate scramble
+});
 
-  // --------------------------------------------// U //-------------------------------------------
-
+// Tests for turning each face
+describe('applyScramble/turns', () => {
   it("should execute a 'U'", () => {
-    const print = false;
     const scramble = 'U';
     const expected: CubeType = {
       U: [
@@ -98,18 +100,10 @@ describe('applyScramble', () => {
     };
 
     const cube = applyScramble('3x3', scramble);
-
-    if (print) {
-      console.log('-------// U //---------');
-      console.log('expected --> ', expected);
-      console.log('cube --> ', cube);
-    }
-
     expect(cube).toStrictEqual(expected);
   });
 
   it("should execute a 'D'", () => {
-    const print = false;
     const scramble = 'D';
     const expected: CubeType = {
       U: [
@@ -145,18 +139,10 @@ describe('applyScramble', () => {
     };
 
     const cube = applyScramble('3x3', scramble);
-
-    if (print) {
-      console.log('-------// D //---------');
-      console.log('expected --> ', expected);
-      console.log('cube --> ', cube);
-    }
-
     expect(cube).toStrictEqual(expected);
   });
 
   it("should execute a 'R'", () => {
-    const print = false;
     const scramble = 'R';
     const expected: CubeType = {
       U: [
@@ -192,18 +178,10 @@ describe('applyScramble', () => {
     };
 
     const cube = applyScramble('3x3', scramble);
-
-    if (print) {
-      console.log('-------// R //---------');
-      console.log('expected --> ', expected);
-      console.log('cube --> ', cube);
-    }
-
     expect(cube).toStrictEqual(expected);
   });
 
   it("should execute a 'L'", () => {
-    const print = false;
     const scramble = 'L';
     const expected: CubeType = {
       U: [
@@ -239,18 +217,10 @@ describe('applyScramble', () => {
     };
 
     const cube = applyScramble('3x3', scramble);
-
-    if (print) {
-      console.log('-------// L //---------');
-      console.log('expected --> ', expected);
-      console.log('cube --> ', cube);
-    }
-
     expect(cube).toStrictEqual(expected);
   });
 
   it("should execute a 'F'", () => {
-    const print = false;
     const scramble = 'F';
     const expected: CubeType = {
       U: [
@@ -286,18 +256,10 @@ describe('applyScramble', () => {
     };
 
     const cube = applyScramble('3x3', scramble);
-
-    if (print) {
-      console.log('-------// F //---------');
-      console.log('expected --> ', expected);
-      console.log('cube --> ', cube);
-    }
-
     expect(cube).toStrictEqual(expected);
   });
 
   it("should execute a 'B'", () => {
-    const print = false;
     const scramble = 'B';
     const expected: CubeType = {
       U: [
@@ -333,13 +295,116 @@ describe('applyScramble', () => {
     };
 
     const cube = applyScramble('3x3', scramble);
+    expect(cube).toStrictEqual(expected);
+  });
+});
 
-    if (print) {
-      console.log('-------// B //---------');
-      console.log('expected --> ', expected);
-      console.log('cube --> ', cube);
-    }
+describe('applyScramble/depth', () => {
+  it('should execute a 2 wide turn', () => {
+    const scramble = 'Uw';
+    const expected: CubeType = {
+      U: [
+        ['W', 'W', 'W', 'W'],
+        ['W', 'W', 'W', 'W'],
+        ['W', 'W', 'W', 'W'],
+        ['W', 'W', 'W', 'W'],
+      ],
+      D: [
+        ['Y', 'Y', 'Y', 'Y'],
+        ['Y', 'Y', 'Y', 'Y'],
+        ['Y', 'Y', 'Y', 'Y'],
+        ['Y', 'Y', 'Y', 'Y'],
+      ],
+      L: [
+        ['G', 'G', 'G', 'G'],
+        ['G', 'G', 'G', 'G'],
+        ['O', 'O', 'O', 'O'],
+        ['O', 'O', 'O', 'O'],
+      ],
+      R: [
+        ['B', 'B', 'B', 'B'],
+        ['B', 'B', 'B', 'B'],
+        ['R', 'R', 'R', 'R'],
+        ['R', 'R', 'R', 'R'],
+      ],
+      F: [
+        ['R', 'R', 'R', 'R'],
+        ['R', 'R', 'R', 'R'],
+        ['G', 'G', 'G', 'G'],
+        ['G', 'G', 'G', 'G'],
+      ],
+      B: [
+        ['O', 'O', 'O', 'O'],
+        ['O', 'O', 'O', 'O'],
+        ['B', 'B', 'B', 'B'],
+        ['B', 'B', 'B', 'B'],
+      ],
+    };
 
+    const cube = applyScramble('4x4', scramble);
+    expect(cube).toStrictEqual(expected);
+  });
+
+  it('should execute a 3 wide turn', () => {
+    const scramble = '3Uw';
+    const expected: CubeType = {
+      U: [
+        ['W', 'W', 'W', 'W', 'W', 'W', 'W'],
+        ['W', 'W', 'W', 'W', 'W', 'W', 'W'],
+        ['W', 'W', 'W', 'W', 'W', 'W', 'W'],
+        ['W', 'W', 'W', 'W', 'W', 'W', 'W'],
+        ['W', 'W', 'W', 'W', 'W', 'W', 'W'],
+        ['W', 'W', 'W', 'W', 'W', 'W', 'W'],
+        ['W', 'W', 'W', 'W', 'W', 'W', 'W'],
+      ],
+      D: [
+        ['Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y'],
+        ['Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y'],
+        ['Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y'],
+        ['Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y'],
+        ['Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y'],
+        ['Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y'],
+        ['Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y'],
+      ],
+      L: [
+        ['G', 'G', 'G', 'G', 'G', 'G', 'G'],
+        ['G', 'G', 'G', 'G', 'G', 'G', 'G'],
+        ['G', 'G', 'G', 'G', 'G', 'G', 'G'],
+        ['O', 'O', 'O', 'O', 'O', 'O', 'O'],
+        ['O', 'O', 'O', 'O', 'O', 'O', 'O'],
+        ['O', 'O', 'O', 'O', 'O', 'O', 'O'],
+        ['O', 'O', 'O', 'O', 'O', 'O', 'O'],
+      ],
+      R: [
+        ['B', 'B', 'B', 'B', 'B', 'B', 'B'],
+        ['B', 'B', 'B', 'B', 'B', 'B', 'B'],
+        ['B', 'B', 'B', 'B', 'B', 'B', 'B'],
+        ['R', 'R', 'R', 'R', 'R', 'R', 'R'],
+        ['R', 'R', 'R', 'R', 'R', 'R', 'R'],
+        ['R', 'R', 'R', 'R', 'R', 'R', 'R'],
+        ['R', 'R', 'R', 'R', 'R', 'R', 'R'],
+      ],
+      F: [
+        ['R', 'R', 'R', 'R', 'R', 'R', 'R'],
+        ['R', 'R', 'R', 'R', 'R', 'R', 'R'],
+        ['R', 'R', 'R', 'R', 'R', 'R', 'R'],
+        ['G', 'G', 'G', 'G', 'G', 'G', 'G'],
+        ['G', 'G', 'G', 'G', 'G', 'G', 'G'],
+        ['G', 'G', 'G', 'G', 'G', 'G', 'G'],
+        ['G', 'G', 'G', 'G', 'G', 'G', 'G'],
+      ],
+      B: [
+        ['O', 'O', 'O', 'O', 'O', 'O', 'O'],
+        ['O', 'O', 'O', 'O', 'O', 'O', 'O'],
+        ['O', 'O', 'O', 'O', 'O', 'O', 'O'],
+        ['B', 'B', 'B', 'B', 'B', 'B', 'B'],
+        ['B', 'B', 'B', 'B', 'B', 'B', 'B'],
+        ['B', 'B', 'B', 'B', 'B', 'B', 'B'],
+        ['B', 'B', 'B', 'B', 'B', 'B', 'B'],
+      ],
+    };
+
+    const cube = applyScramble('7x7', scramble);
     expect(cube).toStrictEqual(expected);
   });
 });
