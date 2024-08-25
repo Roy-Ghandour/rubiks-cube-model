@@ -156,7 +156,7 @@ describe('applyScramble', () => {
   });
 
   it("should execute a 'R'", () => {
-    const print = true;
+    const print = false;
     const scramble = 'R';
     const expected: CubeType = {
       U: [

@@ -1,6 +1,5 @@
-import { applyScrambleHelper } from './applyScrambleHelper';
-import { CubeType } from './cube';
-import { indexedCubeToCube, createIndexedCube, rotate } from './cubeRotator';
+import { Color, CubeType } from './cube';
+import { createIndexedCube, indexedCubeToCube, rotate } from './cubeRotator';
 import { CubeSize, cubeSizeToNumber, validateCubeSize, validateScramble } from './cubeUtils';
 
 const UP = 'U';
@@ -13,17 +12,11 @@ const BACK = 'B';
 const DIRECTIONS = [UP, DOWN, RIGHT, LEFT, FRONT, BACK];
 type Direction = (typeof DIRECTIONS)[number];
 
-type Move = { direction: Direction; reversed: boolean; depth: number; twice: boolean };
+type Move = { direction: Direction; depth: number; numOfMoves: number };
 
 export function applyScramble(cubeSize: CubeSize, scramble: string): CubeType {
-  const testing = false;
-
   validateCubeSize(cubeSize);
   validateScramble(cubeSize, scramble);
-
-  if (testing) {
-    return applyScrambleHelper({ type: '3x3', scramble }) as CubeType;
-  }
 
   const size = cubeSizeToNumber(cubeSize);
   const moves = splitScramble(scramble).map(parseMove);
@@ -31,11 +24,9 @@ export function applyScramble(cubeSize: CubeSize, scramble: string): CubeType {
   const initalCube = createIndexedCube(size);
 
   const modifiedCube = moves.reduce((cube, move) => {
-    // could replace reversed and twice with number of moves?
-    const { direction, depth, reversed, twice } = move;
+    const { direction, depth, numOfMoves } = move;
     let scrambledCube = JSON.parse(JSON.stringify(cube));
 
-    const numOfMoves = twice ? 2 : reversed ? 3 : 1; // will be replaced with num of moves from parse
     for (let i = 0; i < numOfMoves; i++) {
       scrambledCube = rotate(scrambledCube, direction, depth);
     }
@@ -55,16 +46,14 @@ function splitScramble(scramble: string): string[] {
 
 function parseMove(move: string): Move {
   const direction = DIRECTIONS.reduce((finalDirection, direction) => {
-    // maybe change {return} to ()
-    return move.indexOf(direction) !== -1 ? direction : finalDirection; // !== used to be >
+    return move.indexOf(direction) !== -1 ? direction : finalDirection;
   }, '');
 
   const depth = move.indexOf('w') === -1 ? 1 : Number(move[0]) || 2; // Number(move[0]) is for 3Rw' notation (ie. depth of 3+)
-  const reversed = move.indexOf("'") !== -1; // !== -1 used to be > 0
-  const twice = move.indexOf('2') !== -1; // !== -1 used to be > 0
 
-  return { direction, reversed, depth, twice };
+  const reversed = move.indexOf("'") !== -1;
+  const twice = move.indexOf('2') !== -1;
+  const numOfMoves = twice ? 2 : reversed ? 3 : 1;
+
+  return { direction, depth, numOfMoves };
 }
-
-//diff between this and the other?
-//export { applyScramble };

@@ -1,6 +1,4 @@
 import { Color, CubeType } from './cube';
-import { numberToCubeSize } from './cubeUtils';
-import { solvedCube } from './solvedCube';
 
 const UP = 'U';
 const RIGHT = 'R';
@@ -177,13 +175,11 @@ export function createIndexedCube(size: number): IndexedCube {
   } as IndexedCube;
 }
 
-// conflicitng names need to be clarified
-//eg cube, convertedCube
 export function indexedCubeToCube(cube: IndexedCube): CubeType {
-  function convertSide(side: IndexedFace) {
-    const face = Array(size).fill(Array(size).fill(''));
+  function indexedFaceToFace(indexedFace: IndexedFace) {
+    const face = Array.from({ length: size }, () => Array(size).fill(''));
 
-    for (let sticker of side) {
+    for (let sticker of indexedFace) {
       face[sticker.y][sticker.x] = sticker.color;
     }
 
@@ -192,15 +188,14 @@ export function indexedCubeToCube(cube: IndexedCube): CubeType {
 
   const size = getCubeSize(cube);
 
-  // don't like depending on solvedCube
-  const convertedCube: CubeType = solvedCube(numberToCubeSize(size));
-
-  for (let face in cube) {
-    if (!cube.hasOwnProperty(face)) continue;
-    convertedCube[face as keyof CubeType] = convertSide(cube[face as keyof IndexedCube]);
-  }
-
-  return convertedCube as CubeType;
+  return {
+    [UP]: indexedFaceToFace(cube[UP]),
+    [DOWN]: indexedFaceToFace(cube[DOWN]),
+    [LEFT]: indexedFaceToFace(cube[LEFT]),
+    [RIGHT]: indexedFaceToFace(cube[RIGHT]),
+    [FRONT]: indexedFaceToFace(cube[FRONT]),
+    [BACK]: indexedFaceToFace(cube[BACK]),
+  } as CubeType;
 }
 
 // I can maybe get rid of this
