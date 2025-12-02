@@ -1,7 +1,7 @@
 import { Scrambow } from 'scrambow';
 import { validateCubeSize, CubeSize } from './cubeUtils';
 
-function generateScramble(cubeSize: CubeSize) {
+export default function generateScramble(cubeSize: CubeSize) {
   validateCubeSize(cubeSize);
 
   const scrambowType: string = cubeSize[0].repeat(3);
@@ -11,5 +11,3 @@ function generateScramble(cubeSize: CubeSize) {
 
   return scramble;
 }
-
-export { generateScramble };

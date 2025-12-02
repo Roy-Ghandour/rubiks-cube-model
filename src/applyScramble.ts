@@ -1,4 +1,4 @@
-import { Color, CubeType } from './cube';
+import { CubeType } from './cube';
 import { createIndexedCube, indexedCubeToCube, rotate } from './cubeRotator';
 import { CubeSize, cubeSizeToNumber, validateCubeSize, validateScramble } from './cubeUtils';
 
@@ -14,7 +14,7 @@ type Direction = (typeof DIRECTIONS)[number];
 
 type Move = { direction: Direction; depth: number; numOfMoves: number };
 
-export function applyScramble(cubeSize: CubeSize, scramble: string): CubeType {
+export default function applyScramble(cubeSize: CubeSize, scramble: string): CubeType {
   validateCubeSize(cubeSize);
   validateScramble(cubeSize, scramble);
 

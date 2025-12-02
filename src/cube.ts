@@ -1,10 +1,9 @@
-import { applyScramble } from './applyScramble';
+import applyScramble from './applyScramble';
 import { CubeSize, validateScramble } from './cubeUtils';
 
 export type Color = 'W' | 'Y' | 'G' | 'B' | 'R' | 'O';
 export type Face = Color[][];
 
-//// Quarantine for now
 const UP = 'U';
 const RIGHT = 'R';
 const DOWN = 'D';
@@ -14,7 +13,6 @@ const BACK = 'B';
 
 const DIRECTIONS = [UP, DOWN, RIGHT, LEFT, FRONT, BACK];
 type Direction = (typeof DIRECTIONS)[number];
-//////
 
 export type CubeType = {
   [UP]: Face;
@@ -40,7 +38,6 @@ export class Cube {
 
   move(move: string): void {
     validateScramble(this.type, move);
-    // maybe not as lower case is could be wide moves? for now this will mess with xyz
-    this.scramble = this.scramble + move.toUpperCase();
+    this.scramble = this.scramble + move;
   }
 }

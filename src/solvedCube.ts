@@ -1,7 +1,7 @@
 import { CubeType } from './cube';
 import { validateCubeSize, CubeSize, cubeSizeToNumber } from './cubeUtils';
 
-function solvedCube(cubeSize: CubeSize): CubeType {
+export default function solvedCube(cubeSize: CubeSize): CubeType {
   validateCubeSize(cubeSize);
 
   const size = cubeSizeToNumber(cubeSize);
@@ -14,5 +14,3 @@ function solvedCube(cubeSize: CubeSize): CubeType {
     B: Array(size).fill(Array(size).fill('B')),
   };
 }
-
-export { solvedCube };
