@@ -11,6 +11,7 @@ export function validateCubeSize(cubeSize: any): void {
 
 export function cubeSizeToNumber(cubeSize: CubeSize): number {
   if (!validCubeSize(cubeSize)) throw new Error('Invalid Cube Size!');
+  if (!cubeSize[0]) throw new Error('Invalid Cube Size!');
   return parseInt(cubeSize[0], 10);
 }
 

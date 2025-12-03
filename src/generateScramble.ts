@@ -1,12 +1,12 @@
 import { Scrambow } from 'scrambow';
-import { validateCubeSize, CubeSize } from './cubeUtils';
+import { validateCubeSize, type CubeSize } from './cubeUtils';
 
 export default function generateScramble(cubeSize: CubeSize) {
   validateCubeSize(cubeSize);
 
-  const scrambowType: string = cubeSize[0].repeat(3);
+  const scrambowType: string = cubeSize[0]!.repeat(3);
   const scrambo = new Scrambow(scrambowType);
-  let scramble = scrambo.get()[0].scramble_string;
+  let scramble = scrambo.get()[0]!.scramble_string;
   scramble = scramble.replace(/\s+/g, ' ').trim();
 
   return scramble;
