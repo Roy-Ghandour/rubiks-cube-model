@@ -78,7 +78,6 @@ function rotateFace(face: Face): Face {
 
 function rotateSideSlices(cube: Cube, face: FaceName, depth: number): Cube {
   const size = cube.U.length;
-  const max = size - 1;
 
   function getRow(face: Face, row: number): Color[] {
     return face[row]!.slice();
@@ -109,11 +108,11 @@ function rotateSideSlices(cube: Cube, face: FaceName, depth: number): Cube {
   };
 
   const map: Record<FaceName, (layer: number, size: number) => SliceIO[]> = {
-    U: (layer, size) => [
+    U: (layer, _size) => [
       {
         face: 'B',
-        get: (c) => getRow(c.B, layer).toReversed(),
-        set: (f, v) => setRow(f, layer, v.toReversed()),
+        get: (c) => [...getRow(c.B, layer)].reverse(),
+        set: (f, v) => setRow(f, layer, [...v].reverse()),
       },
       {
         face: 'R',
@@ -147,8 +146,8 @@ function rotateSideSlices(cube: Cube, face: FaceName, depth: number): Cube {
         },
         {
           face: 'B',
-          get: (c) => getRow(c.B, max - layer).toReversed(),
-          set: (f, v) => setRow(f, max - layer, v.toReversed()),
+          get: (c) => [...getRow(c.B, max - layer)].reverse(),
+          set: (f, v) => setRow(f, max - layer, [...v].reverse()),
         },
         {
           face: 'L',
@@ -238,8 +237,8 @@ function rotateSideSlices(cube: Cube, face: FaceName, depth: number): Cube {
       return [
         {
           face: 'U',
-          get: (c) => getRow(c.U, layer).toReversed(),
-          set: (f, v) => setRow(f, layer, v.toReversed()),
+          get: (c) => [...getRow(c.U, layer)].reverse(),
+          set: (f, v) => setRow(f, layer, [...v].reverse()),
         },
         {
           face: 'L',
@@ -248,8 +247,8 @@ function rotateSideSlices(cube: Cube, face: FaceName, depth: number): Cube {
         },
         {
           face: 'D',
-          get: (c) => getRow(c.D, max - layer).toReversed(),
-          set: (f, v) => setRow(f, max - layer, v.toReversed()),
+          get: (c) => [...getRow(c.D, max - layer)].reverse(),
+          set: (f, v) => setRow(f, max - layer, [...v].reverse()),
         },
         {
           face: 'R',

@@ -1,48 +1,79 @@
 {
-  "name": "react-rubiks-cube-utils",
-  "version": "1.1.2",
-  "description": "A rubiks cube utility package for react apps",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "name": "rubiks-cube-model",
+  "version": "1.0.0",
+  "description": "General purpose rubiks cube model for standard cube sizes of NxN",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "homepage": "https://github.com/Roy-Ghandour/rubiks-cube-model",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Roy-Ghandour/rubiks-cube-model.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Roy-Ghandour/rubiks-cube-model/issues"
+  },
+  "keywords": [
+    "rubiks",
+    "rubiks-cube",
+    "rubikscube",
+    "speedcubing",
+    "twisty-puzzle",
+    "cube-algorithms",
+    "cube-model",
+    "cube-solver",
+    "cube-simulator",
+    "scramble",
+    "cube-scramble",
+    "nxn-cube",
+    "3x3",
+    "4x4",
+    "5x5",
+    "puzzle",
+    "puzzle-algorithms",
+    "combinatorics",
+    "typescript",
+    "javascript",
+    "math",
+    "geometry"
+  ],
+  "author": "roy-ghandour",
+  "contributors": [
+    "umerkazi"
+  ],
+  "license": "ISC",
   "scripts": {
-    "test": "jest --config jestconfig.json",
-    "build": "tsc",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "lint": "tslint -p tsconfig.json",
+    "build": "tsup",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "test": "jest --coverage",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
+    "prepublishOnly": "npm run test && npm run lint",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/UmerKazi/react-rubiks-cube-utils.git"
-  },
-  "keywords": [
-    "rubiks",
-    "cube",
-    "rubiks cube",
-    "rubiks cube scramble",
-    "typescript"
-  ],
-  "author": "Umer Kazi",
-  "license": "ISC",
-  "files": [
-    "lib/**/*"
-  ],
-  "bugs": {
-    "url": "https://github.com/UmerKazi/react-rubiks-cube-utils/issues"
-  },
-  "homepage": "https://github.com/UmerKazi/react-rubiks-cube-utils#readme",
   "devDependencies": {
-    "@types/jest": "^29.5.5",
+    "@types/jest": "^29.5.14",
+    "@typescript-eslint/eslint-plugin": "^8.48.1",
+    "@typescript-eslint/parser": "^8.48.1",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
     "jest": "^29.7.0",
     "prettier": "^3.0.3",
-    "ts-jest": "^29.1.1",
-    "tslint": "^6.1.3",
-    "tslint-config-prettier": "^1.18.0",
-    "typescript": "^5.2.2"
+    "ts-jest": "^29.4.6",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "scrambow": "^1.8.1"

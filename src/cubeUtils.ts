@@ -5,7 +5,9 @@ const validCubeSize = (x: any): x is CubeSize => cubeSizes.includes(x);
 export function validateCubeSize(cubeSize: any): void {
   if (validCubeSize(cubeSize)) return;
 
-  const err_msg = `Invalid cube size: \'${cubeSize}\'\nSupported cube sizes: ${cubeSizes.join(', ')}`;
+  const err_msg = `Invalid cube size: \'${cubeSize}\'\nSupported cube sizes: ${cubeSizes.join(
+    ', ',
+  )}`;
   throw new Error(err_msg);
 }
 
@@ -43,6 +45,8 @@ export function validateScramble(cubeSize: CubeSize, scramble: string): void {
 
   for (const move of moves) {
     if (!validMove(move) || !validDepth(move))
-      throw new Error(`Invalid move for a (${cubeSize}): --> \'${move}\'\nIn scramble:\n${scramble}`);
+      throw new Error(
+        `Invalid move for a (${cubeSize}): --> \'${move}\'\nIn scramble:\n${scramble}`,
+      );
   }
 }

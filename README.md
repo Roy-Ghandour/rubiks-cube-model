@@ -75,3 +75,8 @@ This will return an array that reflectes the state of a base solved cube, At the
 ## Support
 
 If you encounter any issues or have questions, please [open an issue](https://github.com/UmerKazi/react-rubiks-cube-utils/issues) on GitHub.
+
+## Acknowledgements
+
+This project originated as a fork of the ISC-licensed package
+**react-rubiks-cube-utils** by **umerkazi**.
