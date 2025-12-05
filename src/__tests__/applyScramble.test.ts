@@ -1,54 +1,38 @@
 import { CubeSize } from '../cubeUtils';
-import { applyScramble, CubeType } from '../index';
+import { applyScramble, Cube } from '../index';
 
-const resultingCube: CubeType = {
-  U: [
-    ['O', 'O', 'G'],
-    ['R', 'W', 'G'],
-    ['G', 'Y', 'R'],
-  ],
-  D: [
-    ['W', 'Y', 'B'],
-    ['R', 'Y', 'W'],
-    ['O', 'O', 'W'],
-  ],
-  L: [
-    ['G', 'B', 'W'],
-    ['R', 'O', 'Y'],
-    ['W', 'W', 'R'],
-  ],
-  R: [
-    ['B', 'W', 'Y'],
-    ['G', 'R', 'B'],
-    ['Y', 'B', 'B'],
-  ],
-  F: [
-    ['O', 'B', 'Y'],
-    ['O', 'G', 'R'],
-    ['G', 'G', 'O'],
-  ],
-  B: [
-    ['R', 'W', 'Y'],
-    ['O', 'B', 'Y'],
-    ['R', 'G', 'B'],
-  ],
-};
-/*
-test('Apply Scramble', () => {
-  expect(applyScramble('3x3', "B' U' F2 B2 U D2 R' L U' R' U2 L D2 F' B D' B2 R L' U'")).toStrictEqual(resultingCube);
-});
-*/
-
-//const validCubeTypes = ['2x2', '3x3', '4x4', '5x5', '6x6', '7x7'];
-
-/*
-  validCubeTypes.forEach((type) => {
-    it(`should generate a cube for ${type}`, () => {
-      const cube = applyScramble(type as CubeSize, '');
-      expect(cube).toBeInstanceOf(CubeType);
-    });
-  });
-  */
+// const resultingCube: Cube = {
+//   U: [
+//     ['O', 'O', 'G'],
+//     ['R', 'W', 'G'],
+//     ['G', 'Y', 'R'],
+//   ],
+//   D: [
+//     ['W', 'Y', 'B'],
+//     ['R', 'Y', 'W'],
+//     ['O', 'O', 'W'],
+//   ],
+//   L: [
+//     ['G', 'B', 'W'],
+//     ['R', 'O', 'Y'],
+//     ['W', 'W', 'R'],
+//   ],
+//   R: [
+//     ['B', 'W', 'Y'],
+//     ['G', 'R', 'B'],
+//     ['Y', 'B', 'B'],
+//   ],
+//   F: [
+//     ['O', 'B', 'Y'],
+//     ['O', 'G', 'R'],
+//     ['G', 'G', 'O'],
+//   ],
+//   B: [
+//     ['R', 'W', 'Y'],
+//     ['O', 'B', 'Y'],
+//     ['R', 'G', 'B'],
+//   ],
+// };
 
 // Tests for validating inputs
 describe('applyScramble/validation', () => {
@@ -78,7 +62,7 @@ describe('applyScramble/validation', () => {
 describe('applyScramble/turns', () => {
   it("should execute a 'U'", () => {
     const scramble = 'U';
-    const expected: CubeType = {
+    const expected: Cube = {
       U: [
         ['W', 'W', 'W'],
         ['W', 'W', 'W'],
@@ -117,7 +101,7 @@ describe('applyScramble/turns', () => {
 
   it("should execute a 'D'", () => {
     const scramble = 'D';
-    const expected: CubeType = {
+    const expected: Cube = {
       U: [
         ['W', 'W', 'W'],
         ['W', 'W', 'W'],
@@ -156,7 +140,7 @@ describe('applyScramble/turns', () => {
 
   it("should execute a 'R'", () => {
     const scramble = 'R';
-    const expected: CubeType = {
+    const expected: Cube = {
       U: [
         ['W', 'W', 'G'],
         ['W', 'W', 'G'],
@@ -195,7 +179,7 @@ describe('applyScramble/turns', () => {
 
   it("should execute a 'L'", () => {
     const scramble = 'L';
-    const expected: CubeType = {
+    const expected: Cube = {
       U: [
         ['B', 'W', 'W'],
         ['B', 'W', 'W'],
@@ -234,7 +218,7 @@ describe('applyScramble/turns', () => {
 
   it("should execute a 'F'", () => {
     const scramble = 'F';
-    const expected: CubeType = {
+    const expected: Cube = {
       U: [
         ['W', 'W', 'W'],
         ['W', 'W', 'W'],
@@ -273,7 +257,7 @@ describe('applyScramble/turns', () => {
 
   it("should execute a 'B'", () => {
     const scramble = 'B';
-    const expected: CubeType = {
+    const expected: Cube = {
       U: [
         ['R', 'R', 'R'],
         ['W', 'W', 'W'],
@@ -315,7 +299,7 @@ describe('applyScramble/turns', () => {
 describe('applyScramble/depth', () => {
   it('should execute a 2 wide turn', () => {
     const scramble = 'Uw';
-    const expected: CubeType = {
+    const expected: Cube = {
       U: [
         ['W', 'W', 'W', 'W'],
         ['W', 'W', 'W', 'W'],
@@ -360,7 +344,7 @@ describe('applyScramble/depth', () => {
 
   it('should execute a 3 wide turn', () => {
     const scramble = '3Uw';
-    const expected: CubeType = {
+    const expected: Cube = {
       U: [
         ['W', 'W', 'W', 'W', 'W', 'W', 'W'],
         ['W', 'W', 'W', 'W', 'W', 'W', 'W'],
@@ -426,9 +410,9 @@ describe('applyScramble/depth', () => {
 
 // Tests for full scrambles
 describe('applyScramble/fullSequence', () => {
-  it('should execute a 2x2 scramle', () => {
+  it('should execute a 2x2 scramble', () => {
     const scramble = "F U F' R' F U2 F' U2 F'";
-    const expected: CubeType = {
+    const expected: Cube = {
       U: [
         ['O', 'G'],
         ['B', 'R'],
@@ -459,9 +443,9 @@ describe('applyScramble/fullSequence', () => {
     expect(cube).toStrictEqual(expected);
   });
 
-  it('should execute a 3x3 scramle', () => {
+  it('should execute a 3x3 scramble', () => {
     const scramble = "B L2 U2 B' D2 U2 F U2 B' D2 B F' L' D2 U' F R2 D2 B R' D L'";
-    const expected: CubeType = {
+    const expected: Cube = {
       U: [
         ['G', 'B', 'W'],
         ['G', 'W', 'G'],
@@ -501,7 +485,7 @@ describe('applyScramble/fullSequence', () => {
   it('should execute a 4x4 scramle', () => {
     const scramble =
       "F' U2 Rw D2 R Fw D Uw2 B F Rw B2 D' Uw2 F2 U L Rw R U2 Rw B' R' Uw' Rw' F2 L D2 U' R D' Uw' U B2 Fw F2 Rw' Fw' D F";
-    const expected: CubeType = {
+    const expected: Cube = {
       U: [
         ['O', 'R', 'O', 'R'],
         ['W', 'W', 'G', 'G'],
@@ -547,7 +531,7 @@ describe('applyScramble/fullSequence', () => {
   it('should execute a 5x5 scramle', () => {
     const scramble =
       "D Dw2 Lw' Dw Fw2 F2 Rw D2 Lw2 Dw B' Uw' L Bw U2 L' D B' F2 D2 U' B L' Lw' Dw' Bw Lw2 F' R' B2 F' Rw2 Dw L U2 Rw' R Fw' Uw2 Rw D Uw U2 L' Rw' Dw2 U' L' B Fw D Lw U Rw Fw' Uw' Rw' R2 D U";
-    const expected: CubeType = {
+    const expected: Cube = {
       U: [
         ['G', 'R', 'O', 'Y', 'O'],
         ['G', 'Y', 'B', 'G', 'W'],
@@ -599,7 +583,7 @@ describe('applyScramble/fullSequence', () => {
   it('should execute a 6x6 scramle', () => {
     const scramble =
       "D 3Uw2 Lw2 Uw' F' Uw' 3Rw2 Rw' D' 3Uw' Rw2 Fw Rw Dw2 3Rw' B Lw2 Bw' Uw2 B' Lw' 3Rw2 Dw Rw2 B2 F R2 D2 F Dw B Dw2 Rw' Fw' Lw 3Rw' D2 Dw2 B2 Fw' F2 U 3Fw' Dw Fw L Uw' Rw B' 3Fw D2 F' D' L 3Fw Uw' 3Rw 3Uw2 U2 3Rw2 Uw2 3Fw' D' Dw Lw' Bw Rw' Dw 3Uw U";
-    const expected: CubeType = {
+    const expected: Cube = {
       U: [
         ['R', 'Y', 'O', 'B', 'O', 'R'],
         ['R', 'O', 'O', 'R', 'Y', 'Y'],
@@ -657,7 +641,7 @@ describe('applyScramble/fullSequence', () => {
   it('should execute a 7x7 scramle', () => {
     const scramble =
       "3Fw Uw2 3Lw' Dw' 3Uw' Lw Rw 3Uw2 Uw2 Rw2 R' 3Uw Uw' Rw2 3Uw Uw2 U2 Bw2 D2 L2 Lw Fw 3Lw2 3Rw' R' D Bw' R Bw2 F L2 Fw' R' 3Dw2 Lw2 Rw2 Fw D' Dw2 Bw2 3Fw F' Rw2 D' Dw' Fw' R 3Fw' D L' 3Fw' Fw F2 3Uw2 U2 Bw 3Fw' R' Dw' 3Uw2 3Lw D2 3Dw 3Uw U' 3Lw U' Bw' 3Fw U2 3Bw2 Fw2 F' R F2 3Dw' 3Lw2 Dw' Bw' 3Fw2 3Dw2 U' B 3Bw2 3Uw2 Lw' D' 3Dw' U2 Fw2 L' 3Uw B' 3Lw2 Uw B L2 B' Lw Dw2";
-    const expected: CubeType = {
+    const expected: Cube = {
       U: [
         ['W', 'O', 'W', 'Y', 'R', 'W', 'G'],
         ['R', 'O', 'B', 'Y', 'W', 'Y', 'W'],

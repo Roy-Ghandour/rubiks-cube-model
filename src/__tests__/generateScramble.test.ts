@@ -1,4 +1,4 @@
-import { generateScramble } from '../generateScramble';
+import { generateScramble } from '../index';
 import { CubeSize } from '../cubeUtils';
 
 describe('generateScramble', () => {

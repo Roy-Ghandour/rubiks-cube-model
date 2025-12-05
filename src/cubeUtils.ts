@@ -17,12 +17,6 @@ export function cubeSizeToNumber(cubeSize: CubeSize): number {
   return parseInt(cubeSize[0], 10);
 }
 
-export function numberToCubeSize(size: number): CubeSize {
-  const cubeSize = `${size}x${size}`;
-  if (!validCubeSize(cubeSize)) throw new Error('Invalid Cube Size!');
-  return cubeSize;
-}
-
 export function validateScramble(cubeSize: CubeSize, scramble: string): void {
   const validMove = (move: string) => /^([3-9](?=.*w))?[FBRLUDxyz][w]?[2']?$/.test(move);
   const validDepth = (move: string) => {

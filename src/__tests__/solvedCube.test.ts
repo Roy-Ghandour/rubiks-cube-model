@@ -1,4 +1,4 @@
-import { solvedCube } from '../solvedCube';
+import { solvedCube } from '../index';
 import { CubeSize } from '../cubeUtils';
 
 describe('solvedCube', () => {
