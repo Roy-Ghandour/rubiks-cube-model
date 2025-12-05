@@ -111,8 +111,8 @@ function rotateSideSlices(cube: Cube, face: FaceName, depth: number): Cube {
     U: (layer, _size) => [
       {
         face: 'B',
-        get: (c) => [...getRow(c.B, layer)].reverse(),
-        set: (f, v) => setRow(f, layer, [...v].reverse()),
+        get: (c) => getRow(c.B, layer),
+        set: (f, v) => setRow(f, layer, v),
       },
       {
         face: 'R',
@@ -130,7 +130,6 @@ function rotateSideSlices(cube: Cube, face: FaceName, depth: number): Cube {
         set: (f, v) => setRow(f, layer, v),
       },
     ],
-
     D: (layer, size) => {
       const max = size - 1;
       return [
@@ -146,8 +145,8 @@ function rotateSideSlices(cube: Cube, face: FaceName, depth: number): Cube {
         },
         {
           face: 'B',
-          get: (c) => [...getRow(c.B, max - layer)].reverse(),
-          set: (f, v) => setRow(f, max - layer, [...v].reverse()),
+          get: (c) => getRow(c.B, max - layer),
+          set: (f, v) => setRow(f, max - layer, v),
         },
         {
           face: 'L',
@@ -160,7 +159,7 @@ function rotateSideSlices(cube: Cube, face: FaceName, depth: number): Cube {
     L: (layer, size) => [
       {
         face: 'B',
-        get: (c) => getCol(c.B, size - 1 - layer),
+        get: (c) => [...getCol(c.B, size - 1 - layer)].reverse(),
         set: (f, v) => setCol(f, size - 1 - layer, v),
       },
       {
@@ -175,7 +174,7 @@ function rotateSideSlices(cube: Cube, face: FaceName, depth: number): Cube {
       },
       {
         face: 'D',
-        get: (c) => getCol(c.D, layer),
+        get: (c) => [...getCol(c.D, layer)].reverse(),
         set: (f, v) => setCol(f, layer, v),
       },
     ],
@@ -190,12 +189,12 @@ function rotateSideSlices(cube: Cube, face: FaceName, depth: number): Cube {
         },
         {
           face: 'U',
-          get: (c) => getCol(c.U, max - layer),
+          get: (c) => [...getCol(c.U, max - layer)].reverse(),
           set: (f, v) => setCol(f, max - layer, v),
         },
         {
           face: 'B',
-          get: (c) => getCol(c.B, layer),
+          get: (c) => [...getCol(c.B, layer)].reverse(),
           set: (f, v) => setCol(f, layer, v),
         },
         {
@@ -216,7 +215,7 @@ function rotateSideSlices(cube: Cube, face: FaceName, depth: number): Cube {
         },
         {
           face: 'R',
-          get: (c) => getCol(c.R, layer),
+          get: (c) => [...getCol(c.R, layer)].reverse(),
           set: (f, v) => setCol(f, layer, v),
         },
         {
@@ -226,7 +225,7 @@ function rotateSideSlices(cube: Cube, face: FaceName, depth: number): Cube {
         },
         {
           face: 'L',
-          get: (c) => getCol(c.L, max - layer),
+          get: (c) => [...getCol(c.L, max - layer)].reverse(),
           set: (f, v) => setCol(f, max - layer, v),
         },
       ];
@@ -238,7 +237,7 @@ function rotateSideSlices(cube: Cube, face: FaceName, depth: number): Cube {
         {
           face: 'U',
           get: (c) => [...getRow(c.U, layer)].reverse(),
-          set: (f, v) => setRow(f, layer, [...v].reverse()),
+          set: (f, v) => setRow(f, layer, v),
         },
         {
           face: 'L',
@@ -248,7 +247,7 @@ function rotateSideSlices(cube: Cube, face: FaceName, depth: number): Cube {
         {
           face: 'D',
           get: (c) => [...getRow(c.D, max - layer)].reverse(),
-          set: (f, v) => setRow(f, max - layer, [...v].reverse()),
+          set: (f, v) => setRow(f, max - layer, v),
         },
         {
           face: 'R',
