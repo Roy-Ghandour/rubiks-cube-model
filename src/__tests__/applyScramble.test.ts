@@ -406,7 +406,125 @@ describe('applyScramble/depth', () => {
   });
 });
 
-// Tests for full cube rotations
+// Tests for cube rotations (x, y, z)
+describe('applyScramble/rotations', () => {
+  it('should execute an x rotation', () => {
+    const scramble = 'x';
+    const expected: Cube = {
+      U: [
+        ['G', 'G', 'G'],
+        ['G', 'G', 'G'],
+        ['G', 'G', 'G'],
+      ],
+      D: [
+        ['B', 'B', 'B'],
+        ['B', 'B', 'B'],
+        ['B', 'B', 'B'],
+      ],
+      L: [
+        ['O', 'O', 'O'],
+        ['O', 'O', 'O'],
+        ['O', 'O', 'O'],
+      ],
+      R: [
+        ['R', 'R', 'R'],
+        ['R', 'R', 'R'],
+        ['R', 'R', 'R'],
+      ],
+      F: [
+        ['Y', 'Y', 'Y'],
+        ['Y', 'Y', 'Y'],
+        ['Y', 'Y', 'Y'],
+      ],
+      B: [
+        ['W', 'W', 'W'],
+        ['W', 'W', 'W'],
+        ['W', 'W', 'W'],
+      ],
+    };
+
+    const cube = applyScramble('3x3', scramble);
+    expect(cube).toStrictEqual(expected);
+  });
+
+  it('should execute a y rotation', () => {
+    const scramble = 'y';
+    const expected: Cube = {
+      U: [
+        ['W', 'W', 'W'],
+        ['W', 'W', 'W'],
+        ['W', 'W', 'W'],
+      ],
+      D: [
+        ['Y', 'Y', 'Y'],
+        ['Y', 'Y', 'Y'],
+        ['Y', 'Y', 'Y'],
+      ],
+      L: [
+        ['G', 'G', 'G'],
+        ['G', 'G', 'G'],
+        ['G', 'G', 'G'],
+      ],
+      R: [
+        ['B', 'B', 'B'],
+        ['B', 'B', 'B'],
+        ['B', 'B', 'B'],
+      ],
+      F: [
+        ['R', 'R', 'R'],
+        ['R', 'R', 'R'],
+        ['R', 'R', 'R'],
+      ],
+      B: [
+        ['O', 'O', 'O'],
+        ['O', 'O', 'O'],
+        ['O', 'O', 'O'],
+      ],
+    };
+
+    const cube = applyScramble('3x3', scramble);
+    expect(cube).toStrictEqual(expected);
+  });
+
+  it('should execute a z rotation', () => {
+    const scramble = 'z';
+    const expected: Cube = {
+      U: [
+        ['O', 'O', 'O'],
+        ['O', 'O', 'O'],
+        ['O', 'O', 'O'],
+      ],
+      D: [
+        ['R', 'R', 'R'],
+        ['R', 'R', 'R'],
+        ['R', 'R', 'R'],
+      ],
+      L: [
+        ['Y', 'Y', 'Y'],
+        ['Y', 'Y', 'Y'],
+        ['Y', 'Y', 'Y'],
+      ],
+      R: [
+        ['W', 'W', 'W'],
+        ['W', 'W', 'W'],
+        ['W', 'W', 'W'],
+      ],
+      F: [
+        ['G', 'G', 'G'],
+        ['G', 'G', 'G'],
+        ['G', 'G', 'G'],
+      ],
+      B: [
+        ['B', 'B', 'B'],
+        ['B', 'B', 'B'],
+        ['B', 'B', 'B'],
+      ],
+    };
+
+    const cube = applyScramble('3x3', scramble);
+    expect(cube).toStrictEqual(expected);
+  });
+});
 
 // Tests for full scrambles
 describe('applyScramble/fullSequence', () => {

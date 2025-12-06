@@ -2,7 +2,11 @@ import type { Cube, Face, Color, FaceName } from './cube';
 import { validateCubeSize, validateScramble, type CubeSize } from './cubeUtils';
 import solvedCube from './solvedCube';
 
-type Move = { direction: FaceName; depth: number; numOfMoves: number };
+type Move = {
+  direction: FaceName | 'x' | 'y' | 'z';
+  depth: number;
+  numOfMoves: number;
+};
 
 export default function applyScramble(cubeSize: CubeSize, scramble: string): Cube {
   validateCubeSize(cubeSize);
@@ -13,7 +17,11 @@ export default function applyScramble(cubeSize: CubeSize, scramble: string): Cub
 
   for (const move of moves) {
     for (let i = 0; i < move.numOfMoves; i++) {
-      cube = applyMove(cube, move.direction, move.depth);
+      if (move.direction === 'x' || move.direction === 'y' || move.direction === 'z') {
+        cube = applyCubeRotation(cube, move.direction);
+      } else {
+        cube = applyMove(cube, move.direction, move.depth);
+      }
     }
   }
 
@@ -29,7 +37,12 @@ function splitScramble(scramble: string): string[] {
 }
 
 function parseMove(move: string): Move {
-  const direction = ['U', 'D', 'L', 'R', 'F', 'B'].find((d) => move.includes(d)) as FaceName;
+  const direction = ['U', 'D', 'L', 'R', 'F', 'B', 'x', 'y', 'z'].find((d) => move.includes(d)) as
+    | FaceName
+    | 'x'
+    | 'y'
+    | 'z';
+
   const depth = move.includes('w') ? Number(move[0]) || 2 : 1;
 
   const reversed = move.includes("'");
@@ -37,6 +50,46 @@ function parseMove(move: string): Move {
   const numOfMoves = twice ? 2 : reversed ? 3 : 1;
 
   return { direction, depth, numOfMoves };
+}
+
+// ----------------------------
+// Cube Rotation
+// ----------------------------
+
+function applyCubeRotation(cube: Cube, axis: 'x' | 'y' | 'z'): Cube {
+  const c = deepCopyCube(cube);
+
+  if (axis === 'x') {
+    return {
+      U: c.F,
+      F: c.D,
+      D: c.B,
+      B: c.U,
+      L: rotateFaceCCW(c.L),
+      R: rotateFace(c.R),
+    };
+  }
+
+  if (axis === 'y') {
+    return {
+      U: rotateFace(c.U),
+      D: rotateFaceCCW(c.D),
+      F: c.R,
+      R: c.B,
+      B: c.L,
+      L: c.F,
+    };
+  }
+
+  // z
+  return {
+    U: c.L,
+    L: c.D,
+    D: c.R,
+    R: c.U,
+    F: rotateFace(c.F),
+    B: rotateFaceCCW(c.B),
+  };
 }
 
 // ----------------------------
@@ -70,6 +123,10 @@ function rotateFace(face: Face): Face {
   }
 
   return newFace;
+}
+
+function rotateFaceCCW(face: Face): Face {
+  return rotateFace(rotateFace(rotateFace(face)));
 }
 
 // ----------------------------
