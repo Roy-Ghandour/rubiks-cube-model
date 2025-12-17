@@ -1,20 +1,60 @@
 import { generateScramble } from '../index';
-import { CubeSize } from '../cubeUtils';
+import { MIN_CUBE_SIZE, MAX_CUBE_SIZE } from '../cubeUtils';
+import applyScramble from '../applyScramble';
 
 describe('generateScramble', () => {
-  const validCubeTypes = ['2x2', '3x3', '4x4', '5x5', '6x6', '7x7'];
-
-  validCubeTypes.forEach((type) => {
-    it(`should generate a scramble for ${type}`, () => {
-      const scramble = generateScramble(type as CubeSize);
+  for (let size = MIN_CUBE_SIZE; size <= MAX_CUBE_SIZE; size++) {
+    it(`should generate a scramble for a ${size}x${size} cube`, () => {
+      const scramble = generateScramble(size);
       expect(typeof scramble).toBe('string');
       expect(scramble.length).toBeGreaterThan(0);
     });
+  }
+
+  for (let size = MIN_CUBE_SIZE; size <= MAX_CUBE_SIZE; size++) {
+    it(`should generate only valid moves for a ${size}x${size} cube`, () => {
+      const scramble = generateScramble(size);
+      const moves = scramble.split(' ');
+
+      const moveRegex = /^(\d+(?=.*w))?[FBRLUDxyz]w?[2']?$/;
+
+      for (const move of moves) {
+        expect(move).toMatch(moveRegex);
+        if (move.includes('w')) {
+          const match = move.match(/^(\d+)/);
+          const depth = match ? Number(match[1]) : 2;
+          expect(depth).toBeLessThanOrEqual(Math.floor(size / 2));
+        }
+      }
+    });
+  }
+
+  for (let size = MIN_CUBE_SIZE; size <= MAX_CUBE_SIZE; size++) {
+    it(`should apply the generated scramble without throwing (${size}x${size})`, () => {
+      const scramble = generateScramble(size);
+
+      expect(() => {
+        applyScramble(size, scramble);
+      }).not.toThrow();
+    });
+  }
+
+  it('should not generate the same face twice in a row', () => {
+    const scramble = generateScramble(12);
+    const moves = scramble.split(' ');
+
+    for (let i = 1; i < moves.length; i++) {
+      const prev = moves[i - 1];
+      const curr = moves[i];
+      expect(curr).not.toBe(prev);
+    }
   });
 
-  it('should throw an error for an invalid cube type', () => {
-    expect(() => generateScramble('8x8' as CubeSize)).toThrow(
-      "Invalid cube size: '8x8'\nSupported cube sizes: 2x2, 3x3, 4x4, 5x5, 6x6, 7x7",
+  it('should throw an error for an invalid cube size', () => {
+    const size = MAX_CUBE_SIZE + 1;
+    const supportedCubes = `${MIN_CUBE_SIZE}x${MIN_CUBE_SIZE} -> ${MAX_CUBE_SIZE}x${MAX_CUBE_SIZE}`;
+    expect(() => generateScramble(size)).toThrow(
+      `Invalid cube size: '${size}x${size}'\nSupported cube sizes: ${supportedCubes}`,
     );
   });
 });

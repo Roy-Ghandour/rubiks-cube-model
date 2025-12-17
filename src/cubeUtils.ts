@@ -1,33 +1,31 @@
-const cubeSizes = ['2x2', '3x3', '4x4', '5x5', '6x6', '7x7'] as const;
-export type CubeSize = (typeof cubeSizes)[number];
-const validCubeSize = (x: unknown): x is CubeSize => cubeSizes.includes(x as CubeSize);
+export type CubeSize = number;
+
+export const MIN_CUBE_SIZE = 2;
+export const MAX_CUBE_SIZE = 21;
 
 export function validateCubeSize(cubeSize: unknown): void {
+  const validCubeSize = (x: unknown): x is CubeSize =>
+    typeof x === 'number' && Number.isInteger(x) && x >= MIN_CUBE_SIZE && x <= MAX_CUBE_SIZE;
+
   if (validCubeSize(cubeSize)) return;
 
-  const err_msg = `Invalid cube size: \'${cubeSize}\'\nSupported cube sizes: ${cubeSizes.join(
-    ', ',
-  )}`;
-  throw new Error(err_msg);
-}
-
-export function cubeSizeToNumber(cubeSize: CubeSize): number {
-  if (!validCubeSize(cubeSize)) throw new Error('Invalid Cube Size!');
-  if (!cubeSize[0]) throw new Error('Invalid Cube Size!');
-  return parseInt(cubeSize[0], 10);
+  const supportedCubes = `${MIN_CUBE_SIZE}x${MIN_CUBE_SIZE} -> ${MAX_CUBE_SIZE}x${MAX_CUBE_SIZE}`;
+  throw new Error(
+    `Invalid cube size: \'${cubeSize}x${cubeSize}\'\nSupported cube sizes: ${supportedCubes}`,
+  );
 }
 
 export function validateScramble(cubeSize: CubeSize, scramble: string): void {
-  const validMove = (move: string) => /^([3-9](?=.*w))?[FBRLUDxyz][w]?[2']?$/.test(move);
+  const validMove = (move: string) => /^(\d+(?=.*w))?[FBRLUDxyz]w?[2']?$/.test(move);
   const validDepth = (move: string) => {
     // Not a wide move
     if (!move.includes('w')) return true;
 
-    const depth = Number(move[0]) || 2;
-    const size = cubeSizeToNumber(cubeSize);
+    const match = move.match(/^(\d+)/);
+    const depth = match ? Number(match[1]) : 2;
 
     // Valid depth if less than or equal to half the size of the cube (excluding the centre of the cube)
-    if (depth <= Math.floor(size / 2)) return true;
+    if (depth <= Math.floor(cubeSize / 2)) return true;
 
     return false;
   };
@@ -40,7 +38,7 @@ export function validateScramble(cubeSize: CubeSize, scramble: string): void {
   for (const move of moves) {
     if (!validMove(move) || !validDepth(move))
       throw new Error(
-        `Invalid move for a (${cubeSize}): --> \'${move}\'\nIn scramble:\n${scramble}`,
+        `Invalid move for a (${cubeSize}x${cubeSize}): --> \'${move}\'\nIn scramble:\n${scramble}`,
       );
   }
 }

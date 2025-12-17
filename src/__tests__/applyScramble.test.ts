@@ -1,58 +1,27 @@
-import { CubeSize } from '../cubeUtils';
+import { MAX_CUBE_SIZE, MIN_CUBE_SIZE } from '../cubeUtils';
 import { applyScramble, Cube } from '../index';
-
-// const resultingCube: Cube = {
-//   U: [
-//     ['O', 'O', 'G'],
-//     ['R', 'W', 'G'],
-//     ['G', 'Y', 'R'],
-//   ],
-//   D: [
-//     ['W', 'Y', 'B'],
-//     ['R', 'Y', 'W'],
-//     ['O', 'O', 'W'],
-//   ],
-//   L: [
-//     ['G', 'B', 'W'],
-//     ['R', 'O', 'Y'],
-//     ['W', 'W', 'R'],
-//   ],
-//   R: [
-//     ['B', 'W', 'Y'],
-//     ['G', 'R', 'B'],
-//     ['Y', 'B', 'B'],
-//   ],
-//   F: [
-//     ['O', 'B', 'Y'],
-//     ['O', 'G', 'R'],
-//     ['G', 'G', 'O'],
-//   ],
-//   B: [
-//     ['R', 'W', 'Y'],
-//     ['O', 'B', 'Y'],
-//     ['R', 'G', 'B'],
-//   ],
-// };
 
 // Tests for validating inputs
 describe('applyScramble/validation', () => {
   // Validate cube size
-  it('should throw an error for an invalid cube type', () => {
-    expect(() => applyScramble('8x8' as CubeSize, '')).toThrow(
-      "Invalid cube size: '8x8'\nSupported cube sizes: 2x2, 3x3, 4x4, 5x5, 6x6, 7x7",
+  it('should throw an error for an invalid cube size', () => {
+    const size = MAX_CUBE_SIZE + 1;
+    const supportedCubes = `${MIN_CUBE_SIZE}x${MIN_CUBE_SIZE} -> ${MAX_CUBE_SIZE}x${MAX_CUBE_SIZE}`;
+    expect(() => applyScramble(size, '')).toThrow(
+      `Invalid cube size: '${size}x${size}'\nSupported cube sizes: ${supportedCubes}`,
     );
   });
 
   // Validate scramble format
   it('should throw an error for an invalid scramble', () => {
-    expect(() => applyScramble('3x3', 'sdlkfjs')).toThrow(
+    expect(() => applyScramble(3, 'sdlkfjs')).toThrow(
       "Invalid move for a (3x3): --> 'sdlkfjs'\nIn scramble:\nsdlkfjs",
     );
   });
 
   // Validate scramble depth
   it('should throw an error for an invalid depth', () => {
-    expect(() => applyScramble('3x3', "U 3Dw' B2 F")).toThrow(
+    expect(() => applyScramble(3, "U 3Dw' B2 F")).toThrow(
       "Invalid move for a (3x3): --> '3Dw''\nIn scramble:\nU 3Dw' B2 F",
     );
   });
@@ -95,7 +64,7 @@ describe('applyScramble/turns', () => {
       ],
     };
 
-    const cube = applyScramble('3x3', scramble);
+    const cube = applyScramble(3, scramble);
     expect(cube).toStrictEqual(expected);
   });
 
@@ -134,7 +103,7 @@ describe('applyScramble/turns', () => {
       ],
     };
 
-    const cube = applyScramble('3x3', scramble);
+    const cube = applyScramble(3, scramble);
     expect(cube).toStrictEqual(expected);
   });
 
@@ -173,7 +142,7 @@ describe('applyScramble/turns', () => {
       ],
     };
 
-    const cube = applyScramble('3x3', scramble);
+    const cube = applyScramble(3, scramble);
     expect(cube).toStrictEqual(expected);
   });
 
@@ -212,7 +181,7 @@ describe('applyScramble/turns', () => {
       ],
     };
 
-    const cube = applyScramble('3x3', scramble);
+    const cube = applyScramble(3, scramble);
     expect(cube).toStrictEqual(expected);
   });
 
@@ -251,7 +220,7 @@ describe('applyScramble/turns', () => {
       ],
     };
 
-    const cube = applyScramble('3x3', scramble);
+    const cube = applyScramble(3, scramble);
     expect(cube).toStrictEqual(expected);
   });
 
@@ -290,7 +259,7 @@ describe('applyScramble/turns', () => {
       ],
     };
 
-    const cube = applyScramble('3x3', scramble);
+    const cube = applyScramble(3, scramble);
     expect(cube).toStrictEqual(expected);
   });
 });
@@ -338,7 +307,7 @@ describe('applyScramble/depth', () => {
       ],
     };
 
-    const cube = applyScramble('4x4', scramble);
+    const cube = applyScramble(4, scramble);
     expect(cube).toStrictEqual(expected);
   });
 
@@ -401,7 +370,7 @@ describe('applyScramble/depth', () => {
       ],
     };
 
-    const cube = applyScramble('7x7', scramble);
+    const cube = applyScramble(7, scramble);
     expect(cube).toStrictEqual(expected);
   });
 });
@@ -443,7 +412,7 @@ describe('applyScramble/rotations', () => {
       ],
     };
 
-    const cube = applyScramble('3x3', scramble);
+    const cube = applyScramble(3, scramble);
     expect(cube).toStrictEqual(expected);
   });
 
@@ -482,7 +451,7 @@ describe('applyScramble/rotations', () => {
       ],
     };
 
-    const cube = applyScramble('3x3', scramble);
+    const cube = applyScramble(3, scramble);
     expect(cube).toStrictEqual(expected);
   });
 
@@ -521,7 +490,7 @@ describe('applyScramble/rotations', () => {
       ],
     };
 
-    const cube = applyScramble('3x3', scramble);
+    const cube = applyScramble(3, scramble);
     expect(cube).toStrictEqual(expected);
   });
 });
@@ -557,7 +526,7 @@ describe('applyScramble/fullSequence', () => {
       ],
     };
 
-    const cube = applyScramble('2x2', scramble);
+    const cube = applyScramble(2, scramble);
     expect(cube).toStrictEqual(expected);
   });
 
@@ -596,7 +565,7 @@ describe('applyScramble/fullSequence', () => {
       ],
     };
 
-    const cube = applyScramble('3x3', scramble);
+    const cube = applyScramble(3, scramble);
     expect(cube).toStrictEqual(expected);
   });
 
@@ -642,7 +611,7 @@ describe('applyScramble/fullSequence', () => {
       ],
     };
 
-    const cube = applyScramble('4x4', scramble);
+    const cube = applyScramble(4, scramble);
     expect(cube).toStrictEqual(expected);
   });
 
@@ -694,7 +663,7 @@ describe('applyScramble/fullSequence', () => {
       ],
     };
 
-    const cube = applyScramble('5x5', scramble);
+    const cube = applyScramble(5, scramble);
     expect(cube).toStrictEqual(expected);
   });
 
@@ -752,7 +721,7 @@ describe('applyScramble/fullSequence', () => {
       ],
     };
 
-    const cube = applyScramble('6x6', scramble);
+    const cube = applyScramble(6, scramble);
     expect(cube).toStrictEqual(expected);
   });
 
@@ -816,7 +785,7 @@ describe('applyScramble/fullSequence', () => {
       ],
     };
 
-    const cube = applyScramble('7x7', scramble);
+    const cube = applyScramble(7, scramble);
     expect(cube).toStrictEqual(expected);
   });
 });
