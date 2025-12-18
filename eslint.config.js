@@ -36,8 +36,6 @@ export default [
       'no-console': 'warn',
       'no-debugger': 'warn',
     },
-
-
   },
 
   // extend recommended configs

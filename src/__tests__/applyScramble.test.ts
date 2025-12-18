@@ -1,17 +1,7 @@
-import { MAX_CUBE_SIZE, MIN_CUBE_SIZE } from '../cubeUtils';
 import { applyScramble, Cube } from '../index';
 
 // Tests for validating inputs
 describe('applyScramble/validation', () => {
-  // Validate cube size
-  it('should throw an error for an invalid cube size', () => {
-    const size = MAX_CUBE_SIZE + 1;
-    const supportedCubes = `${MIN_CUBE_SIZE}x${MIN_CUBE_SIZE} -> ${MAX_CUBE_SIZE}x${MAX_CUBE_SIZE}`;
-    expect(() => applyScramble(size, '')).toThrow(
-      `Invalid cube size: '${size}x${size}'\nSupported cube sizes: ${supportedCubes}`,
-    );
-  });
-
   // Validate scramble format
   it('should throw an error for an invalid scramble', () => {
     expect(() => applyScramble(3, 'sdlkfjs')).toThrow(

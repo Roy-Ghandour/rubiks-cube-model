@@ -1,18 +1,23 @@
 export type CubeSize = number;
 
 export const MIN_CUBE_SIZE = 2;
-export const MAX_CUBE_SIZE = 21;
+export const RECOMMENDED_MAX_CUBE_SIZE = 10;
 
-export function validateCubeSize(cubeSize: unknown): void {
-  const validCubeSize = (x: unknown): x is CubeSize =>
-    typeof x === 'number' && Number.isInteger(x) && x >= MIN_CUBE_SIZE && x <= MAX_CUBE_SIZE;
+let hasWarnedAboutLargeCube = false;
 
-  if (validCubeSize(cubeSize)) return;
+const validCubeSize = (x: number): x is CubeSize => Number.isInteger(x) && x >= MIN_CUBE_SIZE;
 
-  const supportedCubes = `${MIN_CUBE_SIZE}x${MIN_CUBE_SIZE} -> ${MAX_CUBE_SIZE}x${MAX_CUBE_SIZE}`;
-  throw new Error(
-    `Invalid cube size: \'${cubeSize}x${cubeSize}\'\nSupported cube sizes: ${supportedCubes}`,
-  );
+export function validateCubeSize(cubeSize: number): void {
+  if (!validCubeSize(cubeSize)) throw new Error(`Invalid cube size: \'${cubeSize}x${cubeSize}\'`);
+
+  if (cubeSize > RECOMMENDED_MAX_CUBE_SIZE && !hasWarnedAboutLargeCube) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `[rubiks-cube-model] Cube size \'${cubeSize}x${cubeSize}\' exceeds the recommended maximum of \'${RECOMMENDED_MAX_CUBE_SIZE}x${RECOMMENDED_MAX_CUBE_SIZE}\'.\nPerformance may degrade significantly for large cubes (memory usage and solve time).`,
+    );
+
+    hasWarnedAboutLargeCube = true;
+  }
 }
 
 export function validateScramble(cubeSize: CubeSize, scramble: string): void {

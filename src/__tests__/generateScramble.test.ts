@@ -1,9 +1,9 @@
 import { generateScramble } from '../index';
-import { MIN_CUBE_SIZE, MAX_CUBE_SIZE } from '../cubeUtils';
+import { MIN_CUBE_SIZE, RECOMMENDED_MAX_CUBE_SIZE } from '../cubeUtils';
 import applyScramble from '../applyScramble';
 
 describe('generateScramble', () => {
-  for (let size = MIN_CUBE_SIZE; size <= MAX_CUBE_SIZE; size++) {
+  for (let size = MIN_CUBE_SIZE; size <= RECOMMENDED_MAX_CUBE_SIZE; size++) {
     it(`should generate a scramble for a ${size}x${size} cube`, () => {
       const scramble = generateScramble(size);
       expect(typeof scramble).toBe('string');
@@ -11,7 +11,7 @@ describe('generateScramble', () => {
     });
   }
 
-  for (let size = MIN_CUBE_SIZE; size <= MAX_CUBE_SIZE; size++) {
+  for (let size = MIN_CUBE_SIZE; size <= RECOMMENDED_MAX_CUBE_SIZE; size++) {
     it(`should generate only valid moves for a ${size}x${size} cube`, () => {
       const scramble = generateScramble(size);
       const moves = scramble.split(' ');
@@ -29,7 +29,7 @@ describe('generateScramble', () => {
     });
   }
 
-  for (let size = MIN_CUBE_SIZE; size <= MAX_CUBE_SIZE; size++) {
+  for (let size = MIN_CUBE_SIZE; size <= RECOMMENDED_MAX_CUBE_SIZE; size++) {
     it(`should apply the generated scramble without throwing (${size}x${size})`, () => {
       const scramble = generateScramble(size);
 
@@ -48,13 +48,5 @@ describe('generateScramble', () => {
       const curr = moves[i];
       expect(curr).not.toBe(prev);
     }
-  });
-
-  it('should throw an error for an invalid cube size', () => {
-    const size = MAX_CUBE_SIZE + 1;
-    const supportedCubes = `${MIN_CUBE_SIZE}x${MIN_CUBE_SIZE} -> ${MAX_CUBE_SIZE}x${MAX_CUBE_SIZE}`;
-    expect(() => generateScramble(size)).toThrow(
-      `Invalid cube size: '${size}x${size}'\nSupported cube sizes: ${supportedCubes}`,
-    );
   });
 });
