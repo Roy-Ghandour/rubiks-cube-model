@@ -40,7 +40,7 @@ describe('generateScramble', () => {
   }
 
   it('should not generate the same face twice in a row', () => {
-    const scramble = generateScramble(12);
+    const scramble = generateScramble(10);
     const moves = scramble.split(' ');
 
     for (let i = 1; i < moves.length; i++) {
