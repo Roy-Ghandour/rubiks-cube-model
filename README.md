@@ -25,6 +25,10 @@ yarn add rubiks-cube-model
 pnpm add rubiks-cube-model
 ```
 
+```bash
+bun add rubiks-cube-model
+```
+
 ## Quick Start
 
 ```typescript
