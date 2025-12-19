@@ -2,7 +2,19 @@ import { Scrambow } from 'scrambow';
 import { validateCubeSize, type CubeSize } from './cubeUtils';
 import { FaceName } from './cube';
 
-export default function generateScramble(cubeSize: CubeSize) {
+/**
+ * Generates a random scramble sequence for a cube.
+ *
+ * @param {CubeSize} cubeSize - The size of the cube (e.g., 3 for a 3x3x3 cube).
+ *                              Must be an integer >= 2.
+ * @returns {string} A space-separated string of random moves.
+ *
+ * @example
+ * // Generate a scramble for a 3x3x3 cube
+ * const scramble = generateScramble(3);
+ * console.log(scramble); // "R U R' U' F R2 ..." (20 moves)
+ */
+export default function generateScramble(cubeSize: CubeSize): string {
   validateCubeSize(cubeSize);
 
   if (cubeSize <= 7) {
@@ -12,7 +24,7 @@ export default function generateScramble(cubeSize: CubeSize) {
   }
 }
 
-function generateWCAScramble(size: number) {
+function generateWCAScramble(size: number): string {
   const scrambowType: string = size.toString().repeat(3);
   const scrambo = new Scrambow(scrambowType);
   let scramble = scrambo.get()[0]!.scramble_string;
@@ -21,7 +33,7 @@ function generateWCAScramble(size: number) {
   return scramble;
 }
 
-function generateNxNScramble(size: number) {
+function generateNxNScramble(size: number): string {
   const faces = ['U', 'D', 'L', 'R', 'F', 'B'] as const;
   const maxDepth = Math.floor(size / 2);
   const length = size * 10;

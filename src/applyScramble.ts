@@ -8,6 +8,19 @@ type Move = {
   numOfMoves: number;
 };
 
+/**
+ * Applies a scramble sequence to a solved cube.
+ *
+ * @param {CubeSize} cubeSize - The size of the cube (e.g., 3 for a 3x3x3 cube).
+ *                              Must be an integer >= 2.
+ * @param {string} scramble - A space-separated string of moves in standard
+ *                            notation (e.g., "R U R' U'").
+ * @returns {Cube} A new cube with the scramble applied.
+ * @throws {Error} If the scramble contains invalid moves.
+ *
+ * @example
+ * const scrambled = applyScramble(3, "R U R' U' R' F R2 U' R' U' R U R' F'");
+ */
 export default function applyScramble(cubeSize: CubeSize, scramble: string): Cube {
   validateCubeSize(cubeSize);
   validateScramble(cubeSize, scramble);
